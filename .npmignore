@@ -1,0 +1,7 @@
+build/
+spec/
+*.coffee
+.travis.yml
+.npmignore
+npm-debug.log
+.node-version
