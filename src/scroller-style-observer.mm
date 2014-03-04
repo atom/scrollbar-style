@@ -44,12 +44,12 @@ ScrollerStyleObserver::ScrollerStyleObserver(NanCallback *callback) : callback(c
   uv_async_init(loop, &async, asyncSendHandler);
 
   CFNotificationCenterAddObserver(
-    CFNotificationCenterGetLocalCenter(),
-    this,
-    &notificationHandler,
-    CFSTR("NSPreferredScrollerStyleDidChangeNotification"),
-    NULL,
-    CFNotificationSuspensionBehaviorDeliverImmediately
+      CFNotificationCenterGetLocalCenter(),
+      this,
+      &notificationHandler,
+      CFSTR("NSPreferredScrollerStyleDidChangeNotification"),
+      NULL,
+      CFNotificationSuspensionBehaviorDeliverImmediately
   );
 }
 
