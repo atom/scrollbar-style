@@ -5,16 +5,16 @@
 
 using namespace v8;  // NOLINT
 
-class ScrollerStyleObserver : public node::ObjectWrap {
+class ScrollbarStyleObserver : public node::ObjectWrap {
  public:
   static void Init(Handle<Object> target);
-  void HandleScrollerStyleChanged();
+  void HandleScrollbarStyleChanged();
 
  private:
-  ScrollerStyleObserver(NanCallback *callback);
-  ~ScrollerStyleObserver();
+  ScrollbarStyleObserver(NanCallback *callback);
+  ~ScrollbarStyleObserver();
   static NAN_METHOD(New);
-  static NAN_METHOD(GetPreferredScrollerStyle);
+  static NAN_METHOD(GetPreferredScrollbarStyle);
 
   NanCallback *callback;
 };

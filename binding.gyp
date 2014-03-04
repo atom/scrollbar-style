@@ -1,12 +1,12 @@
 {
   "targets": [
     {
-      "target_name": "scroller-style-observer",
+      "target_name": "scrollbar-style-observer",
       "include_dirs": [ "<!(node -e \"require('nan')\")" ],
       "conditions": [
         ['OS=="mac"', {
           "sources": [
-            "src/scroller-style-observer-mac.mm",
+            "src/scrollbar-style-observer-mac.mm",
           ],
           "link_settings": {
             "libraries": [
@@ -16,7 +16,7 @@
         }],  # OS=="mac"
         ['OS=="win"', {
           "sources": [
-            "src/scroller-style-observer-non-mac.cc",
+            "src/scrollbar-style-observer-non-mac.cc",
           ],
           'msvs_settings': {
             'VCCLCompilerTool': {
@@ -34,7 +34,7 @@
         }],  # OS=="win"
         ['OS=="linux"', {
           "sources": [
-            "src/scroller-style-observer-non-mac.cc",
+            "src/scrollbar-style-observer-non-mac.cc",
           ],
         }],  # OS=="linux"
       ]

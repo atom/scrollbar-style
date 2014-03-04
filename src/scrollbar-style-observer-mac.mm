@@ -1,29 +1,29 @@
 #import <node.h>
 #import "nan.h"
 #import <AppKit/NSScroller.h>
-#import "scroller-style-observer.h"
+#import "scrollbar-style-observer.h"
 
 using namespace v8;
 
-void ScrollerStyleObserver::Init(Handle<Object> target) {
+void ScrollbarStyleObserver::Init(Handle<Object> target) {
   NanScope();
-  Local<FunctionTemplate> newTemplate = FunctionTemplate::New(ScrollerStyleObserver::New);
-  newTemplate->SetClassName(NanSymbol("ScrollerStyleObserver"));
+  Local<FunctionTemplate> newTemplate = FunctionTemplate::New(ScrollbarStyleObserver::New);
+  newTemplate->SetClassName(NanSymbol("ScrollbarStyleObserver"));
   newTemplate->InstanceTemplate()->SetInternalFieldCount(1);
   Local<ObjectTemplate> proto = newTemplate->PrototypeTemplate();
-  NODE_SET_METHOD(proto, "getPreferredScrollerStyle", ScrollerStyleObserver::GetPreferredScrollerStyle);
-  target->Set(NanSymbol("ScrollerStyleObserver"), newTemplate->GetFunction());
+  NODE_SET_METHOD(proto, "getPreferredScrollbarStyle", ScrollbarStyleObserver::GetPreferredScrollbarStyle);
+  target->Set(NanSymbol("ScrollbarStyleObserver"), newTemplate->GetFunction());
 }
 
-NODE_MODULE(scroller_style_observer, ScrollerStyleObserver::Init)
+NODE_MODULE(scrollbar_style_observer, ScrollbarStyleObserver::Init)
 
-NAN_METHOD(ScrollerStyleObserver::New) {
+NAN_METHOD(ScrollbarStyleObserver::New) {
   NanScope();
 
   Local<Function> callbackHandle = args[0].As<Function>();
   NanCallback *callback = new NanCallback(callbackHandle);
 
-  ScrollerStyleObserver *observer = new ScrollerStyleObserver(callback);
+  ScrollbarStyleObserver *observer = new ScrollbarStyleObserver(callback);
   observer->Wrap(args.This());
   NanReturnUndefined();
 }
@@ -37,10 +37,10 @@ static void notificationHandler(CFNotificationCenterRef center, void *observer, 
 }
 
 static void asyncSendHandler(uv_async_t *handle, int status /*UNUSED*/) {
-  (static_cast<ScrollerStyleObserver *>(handle->data))->HandleScrollerStyleChanged();
+  (static_cast<ScrollbarStyleObserver *>(handle->data))->HandleScrollbarStyleChanged();
 }
 
-ScrollerStyleObserver::ScrollerStyleObserver(NanCallback *callback) : callback(callback) {
+ScrollbarStyleObserver::ScrollbarStyleObserver(NanCallback *callback) : callback(callback) {
   uv_async_init(loop, &async, asyncSendHandler);
 
   CFNotificationCenterAddObserver(
@@ -53,15 +53,15 @@ ScrollerStyleObserver::ScrollerStyleObserver(NanCallback *callback) : callback(c
   );
 }
 
-ScrollerStyleObserver::~ScrollerStyleObserver() {
+ScrollbarStyleObserver::~ScrollbarStyleObserver() {
   delete callback;
 };
 
-void ScrollerStyleObserver::HandleScrollerStyleChanged() {
+void ScrollbarStyleObserver::HandleScrollbarStyleChanged() {
   callback->Call(0, NULL);
 }
 
-NAN_METHOD(ScrollerStyleObserver::GetPreferredScrollerStyle) {
+NAN_METHOD(ScrollbarStyleObserver::GetPreferredScrollbarStyle) {
   NanScope();
 
   if ([NSScroller preferredScrollerStyle] == NSScrollerStyleOverlay) {
