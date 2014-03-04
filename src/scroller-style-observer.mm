@@ -58,7 +58,6 @@ ScrollerStyleObserver::~ScrollerStyleObserver() {
 };
 
 void ScrollerStyleObserver::HandleScrollerStyleChanged() {
-  NanScope();
   callback->Call(0, NULL);
 }
 
