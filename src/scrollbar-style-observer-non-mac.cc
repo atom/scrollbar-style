@@ -1,5 +1,3 @@
-#include <node.h>
-#include "nan.h"
 #include "scrollbar-style-observer.h"
 
 using namespace v8;

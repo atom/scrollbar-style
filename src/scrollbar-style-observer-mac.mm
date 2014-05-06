@@ -1,5 +1,3 @@
-#import <node.h>
-#import "nan.h"
 #import <AppKit/NSScroller.h>
 #import "scrollbar-style-observer.h"
 
