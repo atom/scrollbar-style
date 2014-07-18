@@ -35,7 +35,7 @@
     "rimraf": "~2.1.4"
   },
   "dependencies": {
-    "nan": "0.8.0",
+    "nan": "1.2.0",
     "bindings": "^1.0.0",
     "emissary": "^1.0.0"
   },
