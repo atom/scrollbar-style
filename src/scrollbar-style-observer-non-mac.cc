@@ -4,12 +4,12 @@ using namespace v8;
 
 void ScrollbarStyleObserver::Init(Handle<Object> target) {
   NanScope();
-  Local<FunctionTemplate> newTemplate = FunctionTemplate::New(ScrollbarStyleObserver::New);
-  newTemplate->SetClassName(NanSymbol("ScrollbarStyleObserver"));
+  Local<FunctionTemplate> newTemplate = NanNew<FunctionTemplate>(ScrollbarStyleObserver::New);
+  newTemplate->SetClassName(NanNew<String>("ScrollbarStyleObserver"));
   newTemplate->InstanceTemplate()->SetInternalFieldCount(1);
   Local<ObjectTemplate> proto = newTemplate->PrototypeTemplate();
   NODE_SET_METHOD(proto, "getPreferredScrollbarStyle", ScrollbarStyleObserver::GetPreferredScrollbarStyle);
-  target->Set(NanSymbol("ScrollbarStyleObserver"), newTemplate->GetFunction());
+  target->Set(NanNew<String>("ScrollbarStyleObserver"), newTemplate->GetFunction());
 }
 
 NODE_MODULE(scrollbar_style_observer, ScrollbarStyleObserver::Init)
@@ -37,5 +37,5 @@ void ScrollbarStyleObserver::HandleScrollbarStyleChanged() {
 
 NAN_METHOD(ScrollbarStyleObserver::GetPreferredScrollbarStyle) {
   NanScope();
-  NanReturnValue(String::New("legacy"));
+  NanReturnValue(NanNew<String>("legacy"));
 }
