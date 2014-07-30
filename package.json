@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "nan": "1.2.0",
-    "bindings": "^1.0.0",
     "emissary": "^1.0.0"
   },
   "scripts": {
