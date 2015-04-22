@@ -6,7 +6,7 @@ describe "scrollbar-style", ->
       style = scrollbarStyle.getPreferredScrollbarStyle()
       expect(style is 'legacy' or style is 'overlay').toBe true
 
-  describe "onDidPreferredScrollbarStyleChange(callback)", ->
+  describe "onDidChangePreferredScrollbarStyle(callback)", ->
     it "returns a disposable", ->
-      disposable = scrollbarStyle.onDidPreferredScrollbarStyleChange ->
+      disposable = scrollbarStyle.onDidChangePreferredScrollbarStyle ->
       disposable.dispose()

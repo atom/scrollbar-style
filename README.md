@@ -12,8 +12,8 @@ style preference changes.
 
 ```coffee
 scrollbarStyle = require 'scrollbar-style'
-scrollbarStyle.getValue() # ==> 'legacy' or 'overlay'
-scrollbarStyle.onValue (style) -> # ...
+scrollbarStyle.getPreferredScrollbarStyle() # ==> 'legacy' or 'overlay'
+scrollbarStyle.onDidChangePreferredScrollbarStyle (style) -> # ...
 ```
 
 [ns-scroller]: https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Classes/NSScroller_Class/Reference/Reference.html
