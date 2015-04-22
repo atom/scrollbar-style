@@ -1,7 +1,13 @@
-{Behavior} = require 'emissary'
-{ScrollbarStyleObserver} = require('../build/Release/scrollbar-style-observer.node')
+{Emitter} = require 'event-kit'
+{ScrollbarStyleObserver} = require '../build/Release/scrollbar-style-observer.node'
 
-observer = new ScrollbarStyleObserver -> behavior.emitValue(observer.getPreferredScrollbarStyle())
-behavior = new Behavior(observer.getPreferredScrollbarStyle())
+emitter = new Emitter()
+observer = new ScrollbarStyleObserver ->
+  emitter.emit 'did-preferred-scrollbar-style-change', observer.getPreferredScrollbarStyle()
 
-module.exports = behavior
+module.exports =
+  getPreferredScrollbarStyle: ->
+    observer.getPreferredScrollbarStyle()
+
+  onDidPreferredScrollbarStyleChange: (callback) ->
+    emitter.on 'did-preferred-scrollbar-style-change', callback

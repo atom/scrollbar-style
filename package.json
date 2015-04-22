@@ -26,17 +26,18 @@
   "main": "./lib/scrollbar-style.js",
   "devDependencies": {
     "grunt": "~0.4.0",
+    "grunt-cli": "~0.1.6",
+    "grunt-coffeelint": "0.0.6",
     "grunt-contrib-coffee": "~0.9.0",
     "grunt-shell": "~0.2.1",
-    "grunt-cli": "~0.1.6",
+    "jasmine-focused": "^1.0.7",
     "node-gyp": "~0.8.5",
-    "jasmine-focused": "1.x",
-    "grunt-coffeelint": "0.0.6",
     "rimraf": "~2.1.4"
   },
   "dependencies": {
-    "nan": "https://atom.io/download/atom-shell/nan-1.6.1.tgz",
-    "emissary": "^1.0.0"
+    "emissary": "^1.0.0",
+    "event-kit": "^1.1.0",
+    "nan": "https://atom.io/download/atom-shell/nan-1.6.1.tgz"
   },
   "scripts": {
     "prepublish": "grunt prepublish",
