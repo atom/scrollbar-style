@@ -10,3 +10,7 @@ exports.getPreferredScrollbarStyle = ->
 
 exports.onDidChangePreferredScrollbarStyle = (callback) ->
   emitter.on 'did-change-preferred-scrollbar-style', callback
+
+exports.observePreferredScrollbarStyle = (callback) ->
+  callback(exports.getPreferredScrollbarStyle())
+  exports.onDidChangePreferredScrollbarStyle(callback)
