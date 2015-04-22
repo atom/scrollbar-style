@@ -3,11 +3,10 @@
 
 emitter = new Emitter()
 observer = new ScrollbarStyleObserver ->
-  emitter.emit 'did-preferred-scrollbar-style-change', observer.getPreferredScrollbarStyle()
+  emitter.emit 'did-preferred-scrollbar-style-change', exports.getPreferredScrollbarStyle()
 
-module.exports =
-  getPreferredScrollbarStyle: ->
-    observer.getPreferredScrollbarStyle()
+exports.getPreferredScrollbarStyle = ->
+  observer.getPreferredScrollbarStyle()
 
-  onDidPreferredScrollbarStyleChange: (callback) ->
-    emitter.on 'did-preferred-scrollbar-style-change', callback
+exports.onDidPreferredScrollbarStyleChange = (callback) ->
+  emitter.on 'did-preferred-scrollbar-style-change', callback
