@@ -26,18 +26,18 @@
 
 using namespace v8;  // NOLINT
 
-class ScrollbarStyleObserver : public node::ObjectWrap {
+class ScrollbarStyleObserver : public Nan::ObjectWrap {
  public:
-  static void Init(Handle<Object> target);
+  static void Init(Local<Object> target);
   void HandleScrollbarStyleChanged();
 
  private:
-  explicit ScrollbarStyleObserver(NanCallback *callback);
+  explicit ScrollbarStyleObserver(Nan::Callback *callback);
   ~ScrollbarStyleObserver();
   static NAN_METHOD(New);
   static NAN_METHOD(GetPreferredScrollbarStyle);
 
-  NanCallback *callback;
+  Nan::Callback *callback;
 };
 
 #endif  // SRC_SCROLLBAR_STYLE_OBSERVER_H_
