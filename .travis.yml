@@ -7,6 +7,12 @@ notifications:
 
 node_js:
   - 0.12
+  - 4.0
 
 git:
   depth: 10
+
+sudo: false
+
+env:
+  - CC=clang CXX=clang++ npm_config_clang=1
