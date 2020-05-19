@@ -30,7 +30,9 @@ void ScrollbarStyleObserver::Init(Local<Object> target) {
   newTemplate->InstanceTemplate()->SetInternalFieldCount(1);
   Local<ObjectTemplate> proto = newTemplate->PrototypeTemplate();
   Nan::SetMethod(proto, "getPreferredScrollbarStyle", ScrollbarStyleObserver::GetPreferredScrollbarStyle);
-  target->Set(Nan::New<String>("ScrollbarStyleObserver").ToLocalChecked(), Nan::GetFunction(newTemplate).ToLocalChecked());
+  target->Set(
+    Nan::New<String>("ScrollbarStyleObserver").ToLocalChecked(),
+    Nan::GetFunction(newTemplate).ToLocalChecked());
 }
 
 NODE_MODULE(scrollbar_style_observer, ScrollbarStyleObserver::Init)
