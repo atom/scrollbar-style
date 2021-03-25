@@ -1,5 +1,5 @@
 /node_modules
 /build
-lib/*.js
 npm-debug.log
 .node-version
+.DS_Store

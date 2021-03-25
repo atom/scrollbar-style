@@ -1,31 +1,7 @@
 #import <AppKit/NSScroller.h>
 #import "scrollbar-style-observer.h"
 
-using namespace v8;
-
-void ScrollbarStyleObserver::Init(Local<Object> target) {
-  Nan::HandleScope scope;
-  Local<FunctionTemplate> newTemplate = Nan::New<FunctionTemplate>(ScrollbarStyleObserver::New);
-  newTemplate->SetClassName(Nan::New<String>("ScrollbarStyleObserver").ToLocalChecked());
-  newTemplate->InstanceTemplate()->SetInternalFieldCount(1);
-  Local<ObjectTemplate> proto = newTemplate->PrototypeTemplate();
-  Nan::SetMethod(proto, "getPreferredScrollbarStyle", ScrollbarStyleObserver::GetPreferredScrollbarStyle);
-  v8::Local<v8::Context> context = Nan::GetCurrentContext();
-  target->Set(context, Nan::New<String>("ScrollbarStyleObserver").ToLocalChecked(), Nan::GetFunction(newTemplate).ToLocalChecked());
-}
-
-NODE_MODULE(scrollbar_style_observer, ScrollbarStyleObserver::Init)
-
-NAN_METHOD(ScrollbarStyleObserver::New) {
-  Nan::HandleScope scope;
-
-  Local<Function> callbackHandle = info[0].As<Function>();
-  Nan::Callback *callback = new Nan::Callback(callbackHandle);
-
-  ScrollbarStyleObserver *observer = new ScrollbarStyleObserver(callback);
-  observer->Wrap(info.This());
-  return;
-}
+using namespace Napi;
 
 uv_loop_t *loop = uv_default_loop();
 uv_async_t async;
@@ -39,7 +15,12 @@ static void asyncSendHandler(uv_async_t *handle) {
   (static_cast<ScrollbarStyleObserver *>(handle->data))->HandleScrollbarStyleChanged();
 }
 
-ScrollbarStyleObserver::ScrollbarStyleObserver(Nan::Callback *callback) : callback(callback) {
+ScrollbarStyleObserver::ScrollbarStyleObserver(const Napi::CallbackInfo& info) : ObjectWrap(info) {
+  auto env = info.Env();
+  Napi::HandleScope scope(env);
+
+  callback = Napi::Persistent(info[0].As<Napi::Function>());
+
   uv_async_init(loop, &async, asyncSendHandler);
 
   CFNotificationCenterAddObserver(
@@ -52,20 +33,35 @@ ScrollbarStyleObserver::ScrollbarStyleObserver(Nan::Callback *callback) : callba
   );
 }
 
-ScrollbarStyleObserver::~ScrollbarStyleObserver() {
-  delete callback;
-};
+Napi::Value ScrollbarStyleObserver::GetPreferredScrollbarStyle(const Napi::CallbackInfo& info) {
+    auto env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if ([NSScroller preferredScrollerStyle] == NSScrollerStyleOverlay) {
+      return Napi::String::New(env, "overlay");
+    } else {
+      return Napi::String::New(env, "legacy");
+    }
+}
 
 void ScrollbarStyleObserver::HandleScrollbarStyleChanged() {
-  callback->Call(0, NULL);
+  callback.Call({});
 }
 
-NAN_METHOD(ScrollbarStyleObserver::GetPreferredScrollbarStyle) {
-  Nan::HandleScope scope;
-
-  if ([NSScroller preferredScrollerStyle] == NSScrollerStyleOverlay) {
-    info.GetReturnValue().Set(Nan::New<String>("overlay").ToLocalChecked());
-  } else {
-    info.GetReturnValue().Set(Nan::New<String>("legacy").ToLocalChecked());
-  }
+ScrollbarStyleObserver::~ScrollbarStyleObserver() {
+  delete &callback;
 }
+
+Napi::Function ScrollbarStyleObserver::GetClass(Napi::Env env) {
+    return DefineClass(env, "ScrolstyleObserver", {
+        ScrollbarStyleObserver::InstanceMethod("getPreferredScrollbarStyle", &ScrollbarStyleObserver::GetPreferredScrollbarStyle),
+    });
+}
+
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    Napi::String name = Napi::String::New(env, "ScrollbarStyleObserver");
+    exports.Set(name, ScrollbarStyleObserver::GetClass(env));
+    return exports;
+}
+
+NODE_API_MODULE(addon, Init)

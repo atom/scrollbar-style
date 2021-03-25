@@ -1,46 +1,19 @@
 {
-  "name": "scrollbar-style",
-  "description": "A package for detecting whether the scrollbar style is overlay or legacy",
-  "version": "3.2.3",
-  "keywords": [
-    "scrollbar",
-    "scrollbars"
-  ],
-  "author": {
-    "name": "Nathan Sobo",
-    "email": "nathan@github.com"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/atom/scrollbar-style/raw/master/LICENSE.md"
-    }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/atom/scrollbar-style.git"
-  },
-  "bugs": {
-    "url": "https://github.com/atom/scrollbar-style/issues"
-  },
-  "main": "./lib/scrollbar-style.js",
-  "devDependencies": {
-    "grunt": "~0.4.0",
-    "grunt-cli": "~0.1.6",
-    "grunt-coffeelint": "0.0.6",
-    "grunt-contrib-coffee": "~0.9.0",
-    "grunt-shell": "~0.2.1",
-    "jasmine-focused": "^1.0.7",
-    "node-cpplint": "^0.4.0",
-    "node-gyp": "~0.8.5",
-    "rimraf": "~2.1.4"
-  },
+  "main": "lib/binding.js",
   "dependencies": {
-    "event-kit": "^1.1.0",
-    "nan": "^2.0.0"
+    "event-kit": "^2.5.3",
+    "node-addon-api": "^1.1.0"
   },
   "scripts": {
-    "prepublish": "grunt prepublish",
-    "test": "grunt test"
+    "test": "jasmine"
+  },
+  "gypfile": true,
+  "name": "scrollbar-style",
+  "version": "4.0.0",
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "jasmine": "^3.7.0"
   }
 }

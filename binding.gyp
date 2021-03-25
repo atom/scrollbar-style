@@ -1,19 +1,30 @@
 {
-  "targets": [
+  'targets': [
     {
-      "target_name": "scrollbar-style-observer",
-      "include_dirs": [ "<!(node -e \"require('nan')\")" ],
-      "conditions": [
+      'target_name': 'scrollbar-style-observer-native',
+      'include_dirs': ["<!@(node -p \"require('node-addon-api').include\")"],
+      'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
+      'cflags!': [ '-fno-exceptions' ],
+      'cflags_cc!': [ '-fno-exceptions' ],
+      'xcode_settings': {
+        'GCC_ENABLE_CPP_EXCEPTIONS': 'YES',
+        'CLANG_CXX_LIBRARY': 'libc++',
+        'MACOSX_DEPLOYMENT_TARGET': '10.7'
+      },
+      'msvs_settings': {
+        'VCCLCompilerTool': { 'ExceptionHandling': 1 },
+      },
+      'conditions': [
         ['OS=="mac"', {
-          "sources": [
-            "src/scrollbar-style-observer-mac.mm",
+          'sources': [
+            'src/scrollbar-style-observer-mac.mm'
           ],
-          "link_settings": {
-            "libraries": [
-              "-framework", "AppKit"
+          'link_settings': {
+            'libraries': [
+              '-framework', 'AppKit'
             ]
           }
-        }],  # OS=="mac"
+        }],
         ['OS=="win"', {
           "sources": [
             "src/scrollbar-style-observer-non-mac.cc",
