@@ -4,13 +4,21 @@ on: push
 jobs:
   run-tests:
     name: Run Tests
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - name: Config node-gyp
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: |
+          npm config set node_gyp
+          npm config set msvs_version 2019
       - name: Install dependencies
         run: npm ci
       - name: Run test

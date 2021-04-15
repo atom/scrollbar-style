@@ -5,6 +5,9 @@ using namespace Napi;
 ScrollbarStyleObserver::ScrollbarStyleObserver(const Napi::CallbackInfo& info) : ObjectWrap(info) {
 }
 
+ScrollbarStyleObserver::~ScrollbarStyleObserver() {
+}
+
 Napi::Value ScrollbarStyleObserver::GetPreferredScrollbarStyle(const Napi::CallbackInfo& info) {
     auto env = info.Env();
     Napi::HandleScope scope(env);
